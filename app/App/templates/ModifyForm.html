@@ -5,13 +5,19 @@
 	<body>
 
 		{% include 'nav.html' %}
-
 		<form id="items" method="post" action="/modify/{{ item.file }}/{{ item.id }}/">
 			<input type="text" class="form-control" id="file" name="file" rows="1" placeholder="file" value="{{ item.file }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
 			<input type="text" class="form-control" id="id" name="id" rows="1" placeholder="subTitle" value="{{ item.id }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
 			<input type="text" class="form-control" id="keyList" name="keyList" rows="1" placeholder="subTitle" value="{% for key in item.keyList%}{{ key }},{% endfor %}" aria-label="Recipient's username" aria-describedby="basic-addon2">
 			<input type="text" class="form-control" id="title" name="title" rows="1" placeholder="subTitle" value="{{ item.title }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
-			<textarea id="detail" name="detail" rows="4" cols="50"  onscroll="this.rows++;" value="">{{ item.detail }}</textarea>
+			<div class="row">
+				<div class="col-md-4">
+					<textarea id="detail" name="detail" rows="4" cols="50"  onscroll="this.rows++;" value="">{{ item.detail }}</textarea>
+				</div>
+				<div class="col-md-8">
+					{{ item.detail_html|safe }}
+				</div>
+			</div>
 			<div class="input-group">
 				<button type="submit" class="btn btn-success">update</button> 
 				<button  class="btn btn-warning"><a href="/form/new/{{ item.file }}/"> new </a></button>

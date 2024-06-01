@@ -152,7 +152,7 @@ def showFile(file):
         logger.debug(item["keyList"])
         itemTmp = item
         itemTmp["file"] = f
-        itemTmp["detail"] = markdown.markdown(itemTmp["detail"],extensions=['tables',
+        itemTmp["detail_html"] = markdown.markdown(itemTmp["detail"],extensions=['tables',
                                                                             'markdown.extensions.attr_list',
                                                                             'markdown.extensions.def_list',
                                                                             'markdown.extensions.fenced_code',
@@ -197,7 +197,19 @@ def formModify(file,idx):
         if idx == item["id"]:
             itemTmp = item
             itemTmp["file"] = f
-
+            itemTmp["detail_html"] = markdown.markdown(itemTmp["detail"],extensions=['tables',
+                                                                                'markdown.extensions.attr_list',
+                                                                                'markdown.extensions.def_list',
+                                                                                'markdown.extensions.fenced_code',
+                                                                                'markdown.extensions.footnotes',
+                                                                                'markdown.extensions.codehilite',
+                                                                                "mdx_math"],
+                                                                    extension_configs={
+                                                                                'mdx_math': {
+                                                                                    'enable_dollar_delimiter': True,  # 是否启用单美元符号（默认只启用双美元）
+                                                                                    'add_preview': True  # 在公式加载成功前是否启用预览（默认不启用）
+                                                                                }
+                                                                            })
             return  render_template('ModifyForm.html', file_list=file_list, item=itemTmp)
 
 @homeBlueprint.route('/form/new/',methods=['GET','POST'])
@@ -259,6 +271,20 @@ def modify(file,idx):
             itemModify["keyList"].append(k.upper().strip())
         itemModify["keyList"] = list(filter(None,itemModify["keyList"]))
         print(request.form["detail"])
+        
+        itemModify["detail_html"] = markdown.markdown(itemModify["detail"],extensions=['tables',
+                                                                            'markdown.extensions.attr_list',
+                                                                            'markdown.extensions.def_list',
+                                                                            'markdown.extensions.fenced_code',
+                                                                            'markdown.extensions.footnotes',
+                                                                            'markdown.extensions.codehilite',
+                                                                            "mdx_math"],
+                                                                extension_configs={
+                                                                            'mdx_math': {
+                                                                                'enable_dollar_delimiter': True,  # 是否启用单美元符号（默认只启用双美元）
+                                                                                'add_preview': True  # 在公式加载成功前是否启用预览（默认不启用）
+                                                                            }
+                                                                        })
     else:
         return "not support get request !!!"
         
