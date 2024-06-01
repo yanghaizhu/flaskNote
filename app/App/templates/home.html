@@ -3,10 +3,11 @@
 	{% include 'head.html' %}
 	<body>
 		{% include 'nav.html' %}
-		
+
 		<div class="content">
 			<div class="content_resize">
 				<div class="mainbar">
+
 					{% for itemIdx in range(0,itemList|length) %}
 						<hr><h1 class="display-3">{{ itemList[itemIdx].title }}</h1><hr>
 						<p class="lead">
@@ -53,6 +54,11 @@
 							<a href="/form/new/{{ itemList[itemIdx].file }}/"> 
 								add
 							</a>
+							
+							
+							<div>
+								{{ itemList[itemIdx].detail|safe }}
+							</div>
 							
 						</p>
 							

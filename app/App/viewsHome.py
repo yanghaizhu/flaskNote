@@ -5,7 +5,7 @@ import jmespath
 import os
 from werkzeug.utils import *
 import html
-import uuid
+import markdown
 
 def str_upper_split_to_list(string):
     l = [s.strip().upper() for s in string.split(",")]
@@ -82,38 +82,6 @@ def del_by_id_in_list(idx, item_list):
 # We can have more blueprints, with different name, and at create_app side, register them one by one.
 homeBlueprint = Blueprint('home', __name__)
 
-@homeBlueprint.route('/upload/', methods=['GET', 'POST'])
-def upload_file():
-    # Get the file user has uploaded inside the tinymce editor.
-    uploaded_file = request.files.get('file')
-    if uploaded_file:
-        filename = str(uuid.uuid4()) + secure_filename(uploaded_file.filename).lower()
-        
-        # Validate the contents of the file.  Check the header of the file is infact an image.
-#        valid_img_ext = validate_img(uploaded_file.stream)
-
-        # Split filename and extension, rename & add correct extension.
-#        filename = secure_filename(os.path.splitext(filename)[0] + valid_img_ext)
-
-        img_path = os.path.join("App/static/upload/", filename)
-
-        # Check if user directory exists, create if nessecary.
-#        if not os.path.exists(current_app.config['IMG_UPLOAD_PATH']):
-#            try:
-#                os.makedirs(current_app.config['IMG_UPLOAD_PATH'])
-#            except OSError as e:
-#                if e.errno != errno.EEXIST:
-#                    raise
-
-        # Save the image.
-        uploaded_file.save(img_path)
-        
-        # Return image path back to editor
-        location = url_for('static', filename='upload/' + filename)
-        return jsonify({'location': location})
-
-    abort(Response('404 - Image failed to upload'))
-        
         
 @homeBlueprint.route('/find/<string:findStrings>/',methods=['GET','POST'])
 # look up from All files, collect item content into a List.
@@ -184,6 +152,20 @@ def showFile(file):
         logger.debug(item["keyList"])
         itemTmp = item
         itemTmp["file"] = f
+        itemTmp["detail"] = markdown.markdown(itemTmp["detail"],extensions=['tables',
+                                                                            'markdown.extensions.attr_list',
+                                                                            'markdown.extensions.def_list',
+                                                                            'markdown.extensions.fenced_code',
+                                                                            'markdown.extensions.footnotes',
+                                                                            'markdown.extensions.codehilite',
+                                                                            "mdx_math"],
+                                                                extension_configs={
+                                                                            'mdx_math': {
+                                                                                'enable_dollar_delimiter': True,  # 是否启用单美元符号（默认只启用双美元）
+                                                                                'add_preview': True  # 在公式加载成功前是否启用预览（默认不启用）
+                                                                            }
+                                                                        })
+        print(itemTmp["detail"])
         itemList.append(itemTmp)
 
     logger.debug(itemList)
@@ -276,6 +258,7 @@ def modify(file,idx):
         for k in keyList:
             itemModify["keyList"].append(k.upper().strip())
         itemModify["keyList"] = list(filter(None,itemModify["keyList"]))
+        print(request.form["detail"])
     else:
         return "not support get request !!!"
         

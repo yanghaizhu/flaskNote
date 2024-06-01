@@ -6,6 +6,7 @@
       "PUSCH",
       "PD"
     ],
-    "title": "00000999ttt"
+    "title": "00000999ttt",
+    "detail": "# 一级标题\r\n\r\n1. 步骤一\r\n2. 步骤二\r\n3. 步骤三\r\ntext = \"\"\"\r\n# 示例数学公式\r\n \r\n$$\r\nE = mc^2\r\n$$\r\n <p>\r\n    <span>\r\n    \t<span class=\"MathJax_Preview\">$x^2$</span>\r\n        <script type=\"math/tex\">x^2</script>\r\n    </span>\r\n</p>\r\n这是一个示例数学公式，它表示能量与质量和光速的平方的乘积。\r\n\"\"\"\r\n***\r\n* Item 1\r\n* Item 2\r\n* Item 3\r\n\r\n+ Item 1\r\n+ Item 2\r\n+ Item 3\r\n###### 六级标题\r\n\r\n+ 一级目录\r\n  + 二级目录\r\n    + 三级目录\r\n      + 四级目录\r\n+ 一级目录\r\n\r\n> 引用\r\n>>content部分。\r\n>引用2\r\n\r\n*斜体*\r\n_斜体_\r\n**粗体**\r\n__粗体__\r\n~~删除~~\r\n_**粗斜体**_\r\n*__粗斜体__*\r\n**_粗斜体_**\r\n__*粗斜体*__\r\n\r\n```python\r\nprint(\"hellow\")\r\ndef main()\r\n    pass\r\n```\r\n![简书 LOGO](/static/img/robot_girl.gif)\r\n\r\nBash中可以使用echo来进行输出。\r\n\t$ echo 'Something'\r\n\t$ echo -e '\\tSomething\\n'\r\n\r\n这是一个Inline[示例](http://equation85.github.com \"可选的title\")。\r\n这是一个Reference[示例][ref]。\r\n[ref]: http://equation85.github.com\r\n\r\n\r\n<https://www.jianshu.com/u/195a91a868f5>\r\n\r\nHello World[^hello 1]\r\n[^hello 1]:你好, 世界\r\n\r\n`Hello World`\r\n\r\n|姓名|年龄|性别|身高(cm)|\r\n|-|:-|:-:|-:|\r\n|张三|22|男|180|\r\n|李四|18|女|165|\r\n\r\n[//]: <> (哈哈我是注释，不会在浏览器中显示。)\r\n\r\n[//]: # (哈哈我是注释，不会在浏览器中显示。)\r\n\r\n其中，这种方法最稳定，适用性最强：\r\n\r\n[//]: # (哈哈我是注释，不会在浏览器中显示。)\r\n\r\n这种方法最可爱，超级无敌萌啊：\r\n[//]: # (哈哈我是注释，不会在浏览器中显示。)\r\n\r\n$\\beta$\r\n"
   }
 ]

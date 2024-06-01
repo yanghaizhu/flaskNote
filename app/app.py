@@ -44,7 +44,6 @@ app.config['JSON_AS_ASCII'] = False#make suire json text is not right.
 app.config['SECRET_KEY'] = 'ABC'#make suire json text is not right.
 app.config['JSON_FILE_PATH'] = "App/jsonData/"
 app.config['RECORD_PATH_FILE'] = "App/record"
-#app.config['SERVER_NAME'] = "note:5000"
 app.log = log
 if __name__ == '__main__':
     app.run(host='127.0.0.1',port=5000)
