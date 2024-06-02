@@ -1,5 +1,11 @@
 from flask import Blueprint,request,redirect, current_app
-from .models import *
+from  flask import Flask, render_template, request, url_for, redirect,make_response,json, jsonify
+from  wtforms import StringField, PasswordField, SubmitField
+from flask_wtf import FlaskForm
+from wtforms.validators import DataRequired, EqualTo
+
+
+#from .models import *
 import json
 import jmespath
 import os
@@ -7,83 +13,16 @@ from werkzeug.utils import *
 import html
 import markdown
 from mermaid import *
+from .stringHandler import *
+from .jsonFileHandler import *
+from .actionHandler import *
 
-def str_upper_split_to_list(string):
-    l = [s.strip().upper() for s in string.split(",")]
-    current_app.log.debug(l)
-    return l
-    
-def get_json_file_list():
-    file_list = []
-    file_path = current_app.config["JSON_FILE_PATH"]
-    for root, dirs, files in os.walk(file_path):
-        for f in files:
-            fname = os.path.splitext(f)[0]
-            file_list.append(fname)
-    current_app.log.debug(file_list)
-    return file_list
-
-def json_load_from_file(file):
-    file_path = current_app.config["JSON_FILE_PATH"]
-    with open(file_path+file+'.json',encoding='utf-8') as fp:
-        itemListInJson = json.load(fp)
-        
-        current_app.log.debug(itemListInJson)
-        return itemListInJson
-        
-def json_dump_to_file(file, jsonData):
-    file_path = current_app.config["JSON_FILE_PATH"]
-    with open(file_path+file+'.json','w',encoding='utf-8') as fp:
-        json.dump(jsonData, fp, indent=2,ensure_ascii=False)
-        
-def record_load_from_file():
-    file_path = current_app.config["RECORD_PATH_FILE"]
-    with open(file_path+'.json',encoding='utf-8') as fp:
-        recordData = json.load(fp)
-        current_app.log.debug(recordData)
-        return recordData
-        
-def record_dump_to_file(recordData):
-    file_path = current_app.config["RECORD_PATH_FILE"]
-    with open(file_path+'.json','w',encoding='utf-8') as fp:
-        json.dump(recordData, fp, indent=2,ensure_ascii=False)
-
-def search_revers_action_flag(string):
-    current_app.log.debug(string)
-    return string.startswith("-") or string.startswith("!")
-    
-def search_in_key_list(search, key_list):
-    current_app.log.debug(search)
-    current_app.log.debug(key_list)
-    return search in key_list
-
-def search_res_as_expected(search, key_list):
-    if search_revers_action_flag(search) and not search_in_key_list(search[1:], key_list):
-        return True
-    elif not search_revers_action_flag(search) and search_in_key_list(search, key_list):
-        return True
-    else:
-        return False
-    
-def modify_by_id_in_list(idx, item_list, item_updated):
-    for i in range(len(item_list)):
-        item = item_list[i]
-        if idx == item["id"]:
-            item_list[i] = item_updated
-    return item_list
-
-def del_by_id_in_list(idx, item_list):
-    for i in range(len(item_list)):
-        item = item_list[i]
-        if idx == item["id"]:
-            del item_list[i]
-    return item_list
 
 # blueprint is used for route. "todo" name can be others. todoBlueprint would be used at create_app, in __init__.py. 
 # We can have more blueprints, with different name, and at create_app side, register them one by one.
 homeBlueprint = Blueprint('home', __name__)
 
-        
+
 @homeBlueprint.route('/find/<string:findStrings>/',methods=['GET','POST'])
 # look up from All files, collect item content into a List.
 # 遍历所有的json文件，找到关键字对于的内容列表

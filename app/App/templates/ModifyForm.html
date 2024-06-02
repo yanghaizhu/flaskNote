@@ -6,16 +6,6 @@
 
 		{% include 'nav.html' %}
 		
-    <div class="mermaid">
-        graph LR
-        A[开始] --> B[任务一]
-        B --> C[任务二]
-        C --> D[结束]
-    </div>
-        graph LR
-        A[开始] --> B[任务一]
-        B --> C[任务二]
-        C --> D[结束]
  
  
 		<form id="items" method="post" action="/modify/{{ item.file }}/{{ item.id }}/">
