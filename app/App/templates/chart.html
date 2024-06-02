@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mermaid Flowchart Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="mermaid">
+        graph LR
+        A[开始] --> B[任务一]
+        B --> C[任务二]
+        C --> D[结束]
+    </div>
+ 
+    <script>
+        mermaid.initialize({
+            theme: 'forest',
+            sequenceDiagram: {
+                actorWidth: 0.25,
+                noteWidth: 0.5
+            }
+        });
+    </script>
+</body>
+</html>

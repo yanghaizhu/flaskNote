@@ -6,6 +6,7 @@ import os
 from werkzeug.utils import *
 import html
 import markdown
+from mermaid import *
 
 def str_upper_split_to_list(string):
     l = [s.strip().upper() for s in string.split(",")]
@@ -270,7 +271,6 @@ def modify(file,idx):
         for k in keyList:
             itemModify["keyList"].append(k.upper().strip())
         itemModify["keyList"] = list(filter(None,itemModify["keyList"]))
-        print(request.form["detail"])
         
         itemModify["detail_html"] = markdown.markdown(itemModify["detail"],extensions=['tables',
                                                                             'markdown.extensions.attr_list',
@@ -285,6 +285,7 @@ def modify(file,idx):
                                                                                 'add_preview': True  # 在公式加载成功前是否启用预览（默认不启用）
                                                                             }
                                                                         })
+        print(itemModify["detail_html"])
     else:
         return "not support get request !!!"
         

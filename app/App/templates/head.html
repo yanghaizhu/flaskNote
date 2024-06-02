@@ -8,19 +8,36 @@
 		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    
+    <style>
+        .mermaid {
+            width: 100%;
+            margin: 20px 0;
+        }
+    </style>
+    <script>
+        mermaid.initialize({
+            theme: 'forest',
+            flowchart: {
+                useMaxWidth: false
+            }
+        });
+    </script>
 <style>
     #MathJax_Message {
         display: none!important;
     }
 </style>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      config: ["MMLorHTML.js"],
-      jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML"],
-      extensions: ["MathMenu.js", "MathZoom.js"]
-    });
-</script>
+    <script>
+        mermaid.initialize({
+            theme: 'forest',
+            sequenceDiagram: {
+                actorWidth: 0.25,
+                noteWidth: 0.5
+            }
+        });
+    </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 	</head>
