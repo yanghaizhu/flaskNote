@@ -9,6 +9,15 @@
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 	<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var markdownContent = document.getElementById('markdown-content').value;
+  var htmlContent = document.getElementById('html-content');
+  
+  htmlContent.innerHTML = marked(markdownContent);
+});
+</script>
     
     <style>
         .mermaid {
