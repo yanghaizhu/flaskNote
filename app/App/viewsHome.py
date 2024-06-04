@@ -333,7 +333,7 @@ def formAddToFile(to_file):
 def searchByuuid(uuid):
     logger = current_app.log
     file_list = []
-    
+    itemList = []
             
     logger = current_app.log
     findStr = ""
@@ -352,6 +352,7 @@ def searchByuuid(uuid):
             if uuid == item["uuid"]:
                 im = item
                 im["file"] = f
-                return  render_template('ModifyForm.html', file_list=file_list, item=im)
+                itemList.append(im)
+                return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
 
-    return  render_template('ModifyForm.html', file_list=file_list, item=im)    
+    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)

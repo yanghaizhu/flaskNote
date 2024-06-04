@@ -100,7 +100,10 @@
   {
     "title": "testuuid",
     "keyList": [
-      "TESTUUID"
+      "TESTUUID",
+      "TEST",
+      "UUID",
+      "MYPLAN"
     ],
     "id": 8,
     "uuid": "326ef9e0ec584400810b6c55b0e7a3cc",
