@@ -38,3 +38,15 @@ def record_dump_to_file(recordData):
     file_path = current_app.config["RECORD_PATH_FILE"]
     with open(file_path+'.json','w',encoding='utf-8') as fp:
         json.dump(recordData, fp, indent=2,ensure_ascii=False)
+
+def uuidTitle_dump_to_file(uuid_to_title):
+    file_path = current_app.config["UUID_TITLE_PATH_FILE"]
+    with open(file_path+'.json','w',encoding='utf-8') as fp:
+        json.dump(uuid_to_title, fp, indent=2,ensure_ascii=False)
+
+def uuidTitle_load_from_file():
+    file_path = current_app.config["UUID_TITLE_PATH_FILE"]
+    with open(file_path+'.json',encoding='utf-8') as fp:
+        uuid_to_title = json.load(fp)
+        current_app.log.debug(uuid_to_title)
+        return uuid_to_title
