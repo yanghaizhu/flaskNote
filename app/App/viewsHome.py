@@ -18,17 +18,15 @@ from .stringHandler import *
 from .jsonFileHandler import *
 from .actionHandler import *
 
-
-# blueprint is used for route. "todo" name can be others. todoBlueprint would be used at create_app, in __init__.py. 
+# blueprint is used for route. Blueprint would be used at create_app, in __init__.py. 
 # We can have more blueprints, with different name, and at create_app side, register them one by one.
 homeBlueprint = Blueprint('home', __name__)
 
 @homeBlueprint.route('/find/<string:findStrings>/',methods=['GET','POST'])
 # look up from All files, collect item content into a List.
-# 遍历所有的json文件，找到关键字对于的内容列表
+# 遍历所有的json文件,遍历字典，找到关键字对于的内容列表
 def findListByItem(findStrings):
     logger = current_app.log
-    print(findStrings)
     findStr = findStrings
     if request.method=='POST':
         print(request.form)
@@ -40,7 +38,11 @@ def findListByItem(findStrings):
     
     ## collect file name into a list.
     ## 文件名列表
-    file_list = get_json_file_list()   
+    file_list = get_json_file_list()
+    
+    ## 把之前的list结构的json文件 转换为 dict结构的json文件 需要调用的时候打开，转换完后注释掉。
+    ##json_from_list_to_dict("1","2")
+    
     
     uuid_to_title = dict()
     uuid_to_title = uuidTitle_load_from_file()
@@ -51,7 +53,7 @@ def findListByItem(findStrings):
         itemListInJson = json_load_from_file(f)
         print(f)
         ## 遍历所有item.
-        for item in itemListInJson:
+        for k,item in itemListInJson.items():
             allConditionMeet = True
             for search in search_key_list:
 #                print(item)
@@ -62,10 +64,11 @@ def findListByItem(findStrings):
                 itemTmp["file"] = f
                 itemList.append(itemTmp)
 
-    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list, uuid_to_title=uuid_to_title)
+    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
     
 
 @homeBlueprint.route('/show/<string:file>/',methods=['GET'])
+# 整个文件里所有的内容list都显示出来。
 def showFile(file):
     logger = current_app.log
     logger.critical("show file:"+file)
@@ -91,7 +94,7 @@ def showFile(file):
     ### This file path should be based on root path.  becasue it's just included by app.py, which is in root path. 
     itemListInJson = json_load_from_file(f)
     ## 遍历所有item.
-    for item in itemListInJson:
+    for k,item in itemListInJson.items():
         logger.debug(item)
         logger.debug(findStr)
         logger.debug(item["keyList"])
@@ -103,13 +106,12 @@ def showFile(file):
 
     logger.debug(itemList)
 
-    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list, uuid_to_title=uuid_to_title)
+    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
     
-        
-@homeBlueprint.route('/form/<string:file>/<int:idx>/',methods=['GET','POST'])
+@homeBlueprint.route('/form/<string:file>/<string:uuid>/',methods=['GET','POST'])
 # look up from All files, collect item content into a List.
 # 遍历所有的json文件，找到关键字对于的内容列表
-def formModify(file,idx):
+def formModify(file,uuid):
     logger = current_app.log
     
     itemList = []
@@ -125,21 +127,21 @@ def formModify(file,idx):
 
     itemListInJson = json_load_from_file(f)
     ## 遍历所有item.
-    for item in itemListInJson:
+    for k,item in itemListInJson.items():
         logger.debug(item)
-        logger.debug(item["id"])
-        if idx == item["id"]:
+        print(uuid)
+        if uuid == item["uuid"]:
             itemTmp = item
             itemTmp["file"] = f
-            itemTmp["detail_html"] = markdownToHtmlWithExtensions(itemTmp["detail"])
-            return  render_template('ModifyForm.html', file_list=file_list, item=itemTmp,uuid_to_title=uuid_to_title)
-
+#            itemTmp["detail_html"] = markdownToHtmlWithExtensions(itemTmp["detail"])
+            return  render_template('ModifyForm.html', file_list=file_list, item=itemTmp)
 
     
-@homeBlueprint.route('/modify/<string:file>/<int:idx>/',methods=['POST'])
+
+@homeBlueprint.route('/modify/<string:file>/<string:uuid>/',methods=['POST'])
 # look up from All files, collect item content into a List.
 # 遍历所有的json文件，找到关键字对于的内容列表
-def modify(file,idx):
+def modify(file,uuid):
     logger = current_app.log
     file_list = []
     
@@ -159,7 +161,7 @@ def modify(file,idx):
                 itemModify[key] = request.form[key]
             else:
                 newFile = request.form[key]
-        itemModify["id"] = idx
+        itemModify["uuid"] = uuid
         keyList = itemModify["keyList"].split(",")
         print(keyList)
         itemModify["keyList"] = []
@@ -180,13 +182,14 @@ def modify(file,idx):
         return "not support get request !!!"
         
     if f == newFile:
-        logger.critical("modify file:"+f+",id:"+str(idx))
+        logger.critical("modify file:"+f+",uuid:"+str(uuid))
         itemListInJson = json_load_from_file(f)
-        itemListInJson = modify_by_id_in_list(idx, itemListInJson,itemModify)
+        #### to use uuid instead of uuid
+        itemListInJson[uuid] = itemModify
         json_dump_to_file(f,itemListInJson)
     else:
-        ## 增加到新的文件
-        logger.critical("move item with idx:"+str(idx)+" from file："+ f +" to file:"+newFile)
+        ## 目前设计中不支持新建一个文件，这部分会把内容增加到新的文件，或者移动到新文件中。
+        logger.critical("move item with idx:"+str(uuid)+" from file："+ f +" to file:"+newFile)
         itemListInJson = json_load_from_file(newFile)
         itemListInJson.append(itemModify)
         json_dump_to_file(newFile,itemListInJson)
@@ -197,9 +200,9 @@ def modify(file,idx):
         
     im = itemModify
     im["file"] = newFile;
-    return  render_template('ModifyForm.html', file_list=file_list, item=im,uuid_to_title=uuid_to_title)
+    return  render_template('ModifyForm.html', file_list=file_list, item=im)
     
-
+    
 @homeBlueprint.route('/refresh/record/',methods=['GET','POST'])
 # look up from All files, collect item content into a List.
 # 遍历所有的json文件，找到关键字对于的内容列表
@@ -234,7 +237,7 @@ def refresh():
 
     logger.critical("refresh id in files, number:"+str(record["idx"]))
 
-    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list, uuid_to_title=uuid_to_title)
+    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
 
 
 @homeBlueprint.route('/refresh/uuidTitle/',methods=['GET'])
@@ -264,7 +267,7 @@ def refreshuuidTitle():
     uuidTitle_dump_to_file(uuid_to_title)
 
 
-    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list, uuid_to_title=uuid_to_title)
+    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
 
 
 
@@ -284,7 +287,7 @@ def index():
 
     logger.debug(itemList)
 
-    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list, uuid_to_title=uuid_to_title)
+    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
     
         
 
@@ -332,14 +335,14 @@ def add():
     logger.critical("add item in file:"+newFile+",id:"+str(record["idx"]-1))
 
         ## 增加item.
-    itemListInJson.append(itemAdd)
+    itemListInJson[itemAdd["uuid"]] = itemAdd
     item = itemAdd
     item["file"] = newFile
         
     json_dump_to_file(newFile,itemListInJson)
     record_dump_to_file(record)
          
-    return  render_template('ModifyForm.html', file_list=file_list, item=item,uuid_to_title=uuid_to_title)
+    return  render_template('ModifyForm.html', file_list=file_list, item=item)
 
 
 
@@ -399,11 +402,10 @@ def searchByuuid(uuid):
         itemListInJson = json_load_from_file(f)
         print(f)
         ## 遍历所有item.
-        for item in itemListInJson:
-            if uuid == item["uuid"]:
-                im = item
-                im["file"] = f
-                itemList.append(im)
-                return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list,uuid_to_title=uuid_to_title)
+        item = itemListInJson[uuid]
+        im = item
+        im["file"] = f
+        itemList.append(im)
+        return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
 
-    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list,uuid_to_title=uuid_to_title)
+    return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)

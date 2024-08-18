@@ -26,7 +26,15 @@ def json_dump_to_file(file, jsonData):
     file_path = current_app.config["JSON_FILE_PATH"]
     with open(file_path+file+'.json','w',encoding='utf-8') as fp:
         json.dump(jsonData, fp, indent=2,ensure_ascii=False)
-        
+
+def json_from_list_to_dict(file,toFile):
+    dataList = json_load_from_file(file)
+    dataDict = {}
+    for item in dataList:
+        dataDict[item["uuid"]] = item
+    json_dump_to_file(toFile,dataDict)
+
+
 def record_load_from_file():
     file_path = current_app.config["RECORD_PATH_FILE"]
     with open(file_path+'.json',encoding='utf-8') as fp:
@@ -36,13 +44,10 @@ def record_load_from_file():
 
 def record_load_from_file_by_uuid(uuid):
     print(uuid)
-    print(uuid)
     content = "# ["+uuid+"](http://127.0.0.1:5000/uuid/4f72b351467a400aa018a0243d993b37/)\r\n#"
-    recordData = json_load_from_file("1")
-    for item in recordData:
-        print(item)
-        if uuid == item["uuid"]:
-            content = content + item["detail"]
+    recordData = json_load_from_file("2")
+    item = recordData[uuid]
+    content = content + item["detail"]
     return content
     
 
