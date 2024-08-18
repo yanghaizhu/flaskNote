@@ -62,6 +62,7 @@ def findListByItem(findStrings):
             if allConditionMeet:
                 itemTmp = item
                 itemTmp["file"] = f
+                itemTmp["detail_html"] = markdownToHtmlWithExtensions(itemTmp["detail"])
                 itemList.append(itemTmp)
 
     return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
@@ -133,7 +134,7 @@ def formModify(file,uuid):
         if uuid == item["uuid"]:
             itemTmp = item
             itemTmp["file"] = f
-#            itemTmp["detail_html"] = markdownToHtmlWithExtensions(itemTmp["detail"])
+            itemTmp["detail_html"] = markdownToHtmlWithExtensions(itemTmp["detail"])
             return  render_template('ModifyForm.html', file_list=file_list, item=itemTmp)
 
     
@@ -405,6 +406,7 @@ def searchByuuid(uuid):
         item = itemListInJson[uuid]
         im = item
         im["file"] = f
+        im["detail_html"] = markdownToHtmlWithExtensions(im["detail"])
         itemList.append(im)
         return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
 
