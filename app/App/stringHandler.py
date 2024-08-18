@@ -1,8 +1,10 @@
 from flask import Blueprint,request,redirect, current_app
 import json
-
+import re
 import markdown
 import os
+from .jsonFileHandler import record_load_from_file_by_uuid
+
 def str_upper_split_to_list(string):
     l = [s.strip().upper() for s in string.split(",")]
     current_app.log.debug(l)
@@ -12,8 +14,22 @@ def str_upper_split_to_list(string):
 def search_revers_action_flag(string):
     current_app.log.debug(string)
     return string.startswith("-") or string.startswith("!")
+
+
+def preProcessmarkdownFile(mdString):
+    mdProString = mdString
+    print(mdProString)
+    pat = r'\[uuid\]([0-9a-fA-F]{32})'
+    matchs = re.findall(pat, mdString)
+    for uuid in matchs:
+        content = record_load_from_file_by_uuid(uuid)
+        mdProString = mdProString.replace('[uuid]'+uuid,content)
+    print(mdProString)
+    return mdProString
     
-def markdownToHtmlWithExtensions(mdString):
+def markdownToHtmlWithExtensions(mdPreString):
+    mdString = preProcessmarkdownFile(mdPreString)
+    print(mdString)
     htmlString = markdown.markdown(
         mdString,
         extensions=[

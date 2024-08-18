@@ -33,7 +33,19 @@ def record_load_from_file():
         recordData = json.load(fp)
         current_app.log.debug(recordData)
         return recordData
-        
+
+def record_load_from_file_by_uuid(uuid):
+    print(uuid)
+    print(uuid)
+    content = "# ["+uuid+"](http://127.0.0.1:5000/uuid/4f72b351467a400aa018a0243d993b37/)\r\n#"
+    recordData = json_load_from_file("1")
+    for item in recordData:
+        print(item)
+        if uuid == item["uuid"]:
+            content = content + item["detail"]
+    return content
+    
+
 def record_dump_to_file(recordData):
     file_path = current_app.config["RECORD_PATH_FILE"]
     with open(file_path+'.json','w',encoding='utf-8') as fp:

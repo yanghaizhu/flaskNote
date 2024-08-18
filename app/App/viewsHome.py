@@ -404,6 +404,6 @@ def searchByuuid(uuid):
                 im = item
                 im["file"] = f
                 itemList.append(im)
-                return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list,)
+                return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list,uuid_to_title=uuid_to_title)
 
     return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list,uuid_to_title=uuid_to_title)

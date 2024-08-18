@@ -51,8 +51,8 @@
     "id": 3,
     "uuid": "35d0c88456214a358b9518514132d497",
     "relationList": [],
-    "detail": "# Markdown render by mermaid\r\n## gantt\r\n<div class=\"mermaid\">\r\ngantt\r\ndateFormat  YYYY-MM-DD\r\ntitle Adding GANTT diagram to mermaid\r\nexcludes weekdays 2014-01-10\r\nsection A section\r\nCompleted task            :done,    des1, 2014-01-06,2014-01-08\r\nActive task               :active,  des2, 2014-01-09, 3d\r\nFuture task               :         des3, after des2, 5d\r\nFuture task2               :         des4, after des3, 5d\r\n</div>\r\n",
-    "detail_html": "<h1>Markdown render by mermaid</h1>\n<h2>gantt</h2>\n<div class=\"mermaid\">\ngantt\ndateFormat  YYYY-MM-DD\ntitle Adding GANTT diagram to mermaid\nexcludes weekdays 2014-01-10\nsection A section\nCompleted task            :done,    des1, 2014-01-06,2014-01-08\nActive task               :active,  des2, 2014-01-09, 3d\nFuture task               :         des3, after des2, 5d\nFuture task2               :         des4, after des3, 5d\n</div>"
+    "detail": "# Markdown render by mermaid\r\n## gantt\r\n<div class=\"mermaid\">\r\ngantt\r\ndateFormat  YYYY-MM-DD\r\ntitle Adding GANTT diagram to mermaid\r\nexcludes weekdays 2014-01-10\r\nsection A section\r\nCompleted task            :done,    des1, 2014-01-06,2014-01-08\r\nActive task               :active,  des2, 2014-01-09, 3d\r\nFuture task               :         des3, after des2, 5d\r\nFuture task2               :         des4, after des3, 5d\r\n</div>\r\n\r\n[uuid]a4ae4a323dde4157be1c8511177bff79\r\n",
+    "detail_html": "<h1>Markdown render by mermaid</h1>\n<h2>gantt</h2>\n<div class=\"mermaid\">\ngantt\ndateFormat  YYYY-MM-DD\ntitle Adding GANTT diagram to mermaid\nexcludes weekdays 2014-01-10\nsection A section\nCompleted task            :done,    des1, 2014-01-06,2014-01-08\nActive task               :active,  des2, 2014-01-09, 3d\nFuture task               :         des3, after des2, 5d\nFuture task2               :         des4, after des3, 5d\n</div>\n\n<h1><a href=\"http://127.0.0.1:5000/uuid/4f72b351467a400aa018a0243d993b37/\">a4ae4a323dde4157be1c8511177bff79</a></h1>\n<h2>时序图 markdown demo by mermaid</h2>\n<div class=\"mermaid\">\nsequenceDiagram\n    participant Alice\n    participant Bob\n    Alice->>John: Hello John, how are you?\n    loop HealthCheck\n        John->>John: Fight against hypochondria\n    end\n    Note right of John: Rational thoughts <br/>prevail!\n    John-->>Alice: Great!\n    John->>Bob: How about you?\n    Bob-->>John: Jolly good!\n</div>"
   },
   {
     "title": "table markdown demo",
@@ -115,7 +115,9 @@
     ],
     "id": 7,
     "uuid": "4f72b351467a400aa018a0243d993b37",
-    "relationList": [],
+    "relationList": [
+      "4f72b351467a400aa018a0243d993b37"
+    ],
     "detail": "# 类图 by markdown demo\r\n<div class=\"mermaid\">\r\n\r\nclassDiagram\r\nClass01 <|-- AveryLongClass : Cool\r\nClass03 *-- Class04\r\nClass05 o-- Class06\r\nClass07 .. Class08\r\nClass09 --> C2 : Where am i?\r\nClass09 --* C3\r\nClass09 --|> Class07\r\nClass07 : equals()\r\nClass07 : Object[] elementData\r\nClass01 : size()\r\nClass01 : int chimp\r\nClass01 : int gorilla\r\nClass08 <--> C2: Cool label\r\n</div>\r\n\r\n",
     "detail_html": "<h1>类图 by markdown demo</h1>\n<div class=\"mermaid\">\n\nclassDiagram\nClass01 <|-- AveryLongClass : Cool\nClass03 *-- Class04\nClass05 o-- Class06\nClass07 .. Class08\nClass09 --> C2 : Where am i?\nClass09 --* C3\nClass09 --|> Class07\nClass07 : equals()\nClass07 : Object[] elementData\nClass01 : size()\nClass01 : int chimp\nClass01 : int gorilla\nClass08 <--> C2: Cool label\n</div>"
   }
