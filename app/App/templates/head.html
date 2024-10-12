@@ -4,22 +4,63 @@
 		<title>add-form</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/markdown.css') }}">
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}"> <!-- Normalize.css makes browsers render all elements more consistently and in line with modern standards-->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/mains.css') }}"> <!-- Styles of Puerto Responsive Dark Navigation Menu -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"> <!-- Font awesome -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 		<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-	<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  var markdownContent = document.getElementById('markdown-content').value;
-  var htmlContent = document.getElementById('html-content');
-  
-  htmlContent.innerHTML = marked(markdownContent);
-});
+		<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-</script>
-    
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+			  var markdownContent = document.getElementById('markdown-content').value;
+			  var htmlContent = document.getElementById('html-content');
+			  htmlContent.innerHTML = marked(markdownContent);
+			});
+		</script>
+    	<script>
+			$(document).ready(function() { //1
+				var inputVal; // 存储原始输入值
+				$('#items').on('submit', function(e) { // 2
+//					e.preventDefault(); // 阻止表单默认提交行为
+					submitForm(); // 调用提交表单的函数
+				}); // 2 end
+				$('#detail').on('input', function() { // 2
+					if (inputVal !== $(this).val()) { // 检测输入值是否有变化
+						inputVal = $(this).val(); // 更新原始输入值
+						submitForm(); // 调用提交表单的函数
+					}
+					else
+					{				   alert("detail input");
+}
+				}); // 2 end
+
+			  function submitForm() { // 3
+				var formData = $('#items').serialize(); // 序列化表单数据
+				$.ajax({ // 4
+				  type: 'POST',
+				  url: '/update/', // 服务器端脚本的URL
+				  data: formData,
+				  success: function(response) {
+					  console.log('Submission successful:', response.detail_html);
+					  const graphDefinition = 'classDiagram Class01 <|-- AveryLongClass : Cool';
+					$('#responsedetailOut').html(response.detail_html).removeAttr('data-processed'); // 更新页面内容
+
+					mermaid.init(undefined, $('#update'));
+			  		},
+				  error: function() {
+					alert('Error submitting the form');
+				  }
+				});// 4 end
+			  } // 3 end
+			});// 1 end
+		</script>
     <style>
         .mermaid {
             width: 100%;

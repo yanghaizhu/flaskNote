@@ -1,39 +1,37 @@
-
-<nav class="navbar navbar-expand navbar-dark bg-dark">
-  <a class="navbar-brand" href=""><img src="https://www.bootcss.com/assets/img/navlogo-small.png"></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarsExample02">
-    <div class="row">
-	  <div class="col-md-6">
-		<ul class="navbar-nav mr-auto">
-		  <!--
-          {% for f in file_list %}
-            <li class="nav-item active">
-              <a class="nav-link" href="/show/{{ f }}/">{{f}}</a>
-            </li>
-          {% endfor %}
-          -->
-          <li class="nav-item active">
-	        <a class="nav-link"  href="/refresh/record/"> redoId  </a>
-          </li>
-          <li class="nav-item active">
-	        <a class="nav-link"  href="/refresh/uuidTitle/"> uuID_title  </a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="/form/new/"> add </a>
-          </li>
-          <li class="nav-item active">
-		    <button  class="btn btn-warning"><a href="/form/new/"> new </a></button>
-          </li>
-        </ul>
-	  </div>
-	  <div class="col-md-6">
-		<form class="form-inline my-2 my-md-0 float:right" action="/find/xxx/" method="post">
-      <input class="form-control" name="search" type="text" placeholder="Search" value="{{findStr}}">
+<nav>
+		<form action="/find/xxx/" method="post">
+      <input class="form-control" name="search" type="search" placeholder="Search" value="{{findStr}}">
     </form>
-	
-	</div>
-  </div>
+
+		<ul class="puerto-dark-menu color-15  float:left">
+
+			<li class="drop-menu">
+				<a href="">
+					<i class="fa fa-envelope-o"></i>
+					<small>1</small>
+					<strong>File list</strong>
+				</a>
+				<ul>
+					{% for f in file_list %}
+					<li><a href="/show/{{ f }}/"><i class="fa fa-globe"></i>{{f}}</a></li>
+					<li><a href="/show/{{ f }}/"><i class="fa fa-globe"></i>{{f}}</a></li>
+					<li><a href="/show/{{ f }}/"><i class="fa fa-globe"></i>{{f}}</a></li>
+					{% endfor %}
+				</ul>
+			</li>
+			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
+			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
+			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
+			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
+			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
+			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
+			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
+			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
+			<li class="active">
+				<a href="/form/new/">
+					<i class="fa fa-edit"></i>
+					<strong>New</strong>
+				</a>
+			</li>
+		</ul>
 </nav>

@@ -411,3 +411,20 @@ def searchByuuid(uuid):
         return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
 
     return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
+
+
+@homeBlueprint.route('/update/', methods=['POST'])
+# look up from All files, collect item content into a List.
+# 遍历所有的json文件，找到关键字对于的内容列表
+def update():
+    print("upate by AJAX")
+    jsonObj = request.form.to_dict()
+    item = dict()
+#    itemModify["item"]=dict()
+    if request.method == 'POST':
+        item["detail_html"] = markdownToHtmlWithExtensions(jsonObj["detail"])
+
+        return jsonify(item)
+    else:
+        return "not support get request !!!"
+
