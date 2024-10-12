@@ -7,16 +7,17 @@
 
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}"> <!-- Normalize.css makes browsers render all elements more consistently and in line with modern standards-->
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/mains.css') }}"> <!-- Styles of Puerto Responsive Dark Navigation Menu -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"> <!-- Font awesome -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<link rel="stylesheet" href="{{ url_for('static', filename='font/css/all.min.css') }}"> <!-- Font awesome -->
 
-		<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!--		<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script> -->
 		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 		<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
+<!--
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
 			  var markdownContent = document.getElementById('markdown-content').value;
@@ -24,6 +25,7 @@
 			  htmlContent.innerHTML = marked(markdownContent);
 			});
 		</script>
+		-->
     	<script>
 			$(document).ready(function() { //1
 				var inputVal; // 存储原始输入值
@@ -69,9 +71,17 @@
     </style>
     <script>
         mermaid.initialize({
-            theme: 'forest',
+            theme: 'default',
+            gantt: { axisFormat: '%m/%d/%Y' },
             flowchart: {
-                useMaxWidth: false
+                useMaxWidth: false,
+                arrowMarkerAbsolute: true,
+                curve: 'linear'
+            },
+            sequenceDiagram: {
+                actorWidth: 0.25,
+               noteWidth: 0.5,
+               actorMargin: 30
             }
         });
     </script>
@@ -80,15 +90,7 @@
         display: none!important;
     }
 </style>
-    <script>
-        mermaid.initialize({
-            theme: 'forest',
-            sequenceDiagram: {
-                actorWidth: 0.25,
-                noteWidth: 0.5
-            }
-        });
-    </script>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 	</head>
