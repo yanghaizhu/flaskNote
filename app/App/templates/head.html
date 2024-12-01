@@ -38,11 +38,7 @@
 						inputVal = $(this).val(); // 更新原始输入值
 						submitForm(); // 调用提交表单的函数
 					}
-					else
-					{				   alert("detail input");
-}
-				}); // 2 end
-
+				})
 			  function submitForm() { // 3
 				var formData = $('#items').serialize(); // 序列化表单数据
 				$.ajax({ // 4
@@ -55,6 +51,7 @@
 					$('#responsedetailOut').html(response.detail_html).removeAttr('data-processed'); // 更新页面内容
 
 					mermaid.init(undefined, $('#update'));
+					MathJax.Hub.Queue(["Typeset",MathJax.Hub, 'responsedetailOut']);
 			  		},
 				  error: function() {
 					alert('Error submitting the form');
