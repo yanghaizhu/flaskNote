@@ -53,8 +53,29 @@ def record_load_from_file_by_uuid(uuid):
 
 def record_dump_to_file(recordData):
     file_path = current_app.config["RECORD_PATH_FILE"]
+    print(recordData)
+    print("file_path")
+    print(file_path)
     with open(file_path+'.json','w',encoding='utf-8') as fp:
         json.dump(recordData, fp, indent=2,ensure_ascii=False)
+    
+
+
+def appendNewItemToFile(uuid, content):
+    recordData = json_load_from_file("2")
+    print(uuid)
+    itemAdd = dict()
+    keyList = list()
+    relationList = list()
+    itemAdd["keyList"] = []
+    itemAdd["relationList"] = []
+    itemAdd["uuid"] = uuid
+    itemAdd["detail"] = content
+    recordData[uuid] = itemAdd
+
+        
+    json_dump_to_file("2",recordData)
+
 
 def uuidTitle_dump_to_file(uuid_to_title):
     file_path = current_app.config["UUID_TITLE_PATH_FILE"]

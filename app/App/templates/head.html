@@ -50,11 +50,10 @@
 					  const graphDefinition = 'classDiagram Class01 <|-- AveryLongClass : Cool';
 					$('#responsedetailOut').html(response.detail_html).removeAttr('data-processed'); // 更新页面内容
 
-					mermaid.init(undefined, $('#update'));
+					mermaid.init(undefined, $('.mermaid'));
 					MathJax.Hub.Queue(["Typeset",MathJax.Hub, 'responsedetailOut']);
 			  		},
 				  error: function() {
-					alert('Error submitting the form');
 				  }
 				});// 4 end
 			  } // 3 end

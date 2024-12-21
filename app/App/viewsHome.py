@@ -4,6 +4,8 @@ from  wtforms import StringField, PasswordField, SubmitField
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, EqualTo
 import uuid
+from flask_restful import Resource,Api
+import requests
 #str(uuid.uuid4()) to generate random string, used as unique string. like id.
 
 #from .models import *
@@ -109,10 +111,10 @@ def showFile(file):
 
     return  render_template('home.html', findStr=findStr, itemList=itemList, file_list=file_list)
     
-@homeBlueprint.route('/form/<string:file>/<string:uuid>/',methods=['GET','POST'])
+@homeBlueprint.route('/form/<string:file>/<string:uuid_str>/',methods=['GET','POST'])
 # look up from All files, collect item content into a List.
 # 遍历所有的json文件，找到关键字对于的内容列表
-def formModify(file,uuid):
+def formModify(file,uuid_str):
     logger = current_app.log
     
     itemList = []
@@ -130,8 +132,8 @@ def formModify(file,uuid):
     ## 遍历所有item.
     for k,item in itemListInJson.items():
         logger.debug(item)
-        print(uuid)
-        if uuid == item["uuid"]:
+        print(uuid_str)
+        if uuid_str == item["uuid"]:
             itemTmp = item
             itemTmp["file"] = f
             itemTmp["detail_html"] = markdownToHtmlWithExtensions(itemTmp["detail"])
@@ -139,10 +141,10 @@ def formModify(file,uuid):
 
     
 
-@homeBlueprint.route('/modify/<string:file>/<string:uuid>/',methods=['POST'])
+@homeBlueprint.route('/modify/<string:file>/<string:uuid_str>/',methods=['POST'])
 # look up from All files, collect item content into a List.
 # 遍历所有的json文件，找到关键字对于的内容列表
-def modify(file,uuid):
+def modify(file,uuid_str):
     logger = current_app.log
     file_list = []
     
@@ -162,7 +164,7 @@ def modify(file,uuid):
                 itemModify[key] = request.form[key]
             else:
                 newFile = request.form[key]
-        itemModify["uuid"] = uuid
+        itemModify["uuid"] = uuid_str
         keyList = itemModify["keyList"].split(",")
         print(keyList)
         itemModify["keyList"] = []
@@ -176,21 +178,24 @@ def modify(file,uuid):
         for k in relationList:
             itemModify["relationList"].append(k.strip())
         itemModify["relationList"] = list(filter(None,itemModify["relationList"]))
-        
+        # check if contain {new-start} and {new-end} 
+        # if so, add content as new item,
+        #        and insert uuid link here to replace the content.
+        itemModify["detail"] = preProcessmarkdown_newItem(itemModify["detail"])
         itemModify["detail_html"] = markdownToHtmlWithExtensions(itemModify["detail"])
         print(itemModify["detail_html"])
     else:
         return "not support get request !!!"
         
     if f == newFile:
-        logger.critical("modify file:"+f+",uuid:"+str(uuid))
+        logger.critical("modify file:"+f+",uuid:"+str(uuid_str))
         itemListInJson = json_load_from_file(f)
         #### to use uuid instead of uuid
-        itemListInJson[uuid] = itemModify
+        itemListInJson[uuid_str] = itemModify
         json_dump_to_file(f,itemListInJson)
     else:
         ## 目前设计中不支持新建一个文件，这部分会把内容增加到新的文件，或者移动到新文件中。
-        logger.critical("move item with idx:"+str(uuid)+" from file："+ f +" to file:"+newFile)
+        logger.critical("move item with idx:"+str(uuid_str)+" from file："+ f +" to file:"+newFile)
         itemListInJson = json_load_from_file(newFile)
         itemListInJson.append(itemModify)
         json_dump_to_file(newFile,itemListInJson)
@@ -378,10 +383,24 @@ def formAddToFile(to_file):
 
     return  render_template('AddForm.html', file_list=file_list,to_file = to_file)
 
-@homeBlueprint.route('/uuid/<string:uuid>/',methods=['GET'])
+@homeBlueprint.route('/uuid/<string:uuid_str>/',methods=['GET'])
 # look up from All files, collect item content into a List.
 # 遍历所有的json文件，找到关键字对于的内容列表
-def searchByuuid(uuid):
+def searchByuuid(uuid_str):
+
+#    url = 'http://127.0.0.1:5000/Name/hzzz'
+    
+#    res = requests.get(url)
+#    print(res.text)
+    
+#    data = {'Name':'haizu'}
+#    headers = {'Content-Type':'application/json'}
+#    res = requests.post(url, data=json.dumps(data),headers=headers)
+#    print(res.text)
+    
+#    res = requests.delete(url,  data=data)
+#    print(res.text)
+    
     logger = current_app.log
     file_list = []
     itemList = []
@@ -403,7 +422,7 @@ def searchByuuid(uuid):
         itemListInJson = json_load_from_file(f)
         print(f)
         ## 遍历所有item.
-        item = itemListInJson[uuid]
+        item = itemListInJson[uuid_str]
         im = item
         im["file"] = f
         im["detail_html"] = markdownToHtmlWithExtensions(im["detail"])
