@@ -4,7 +4,6 @@ from  wtforms import StringField, PasswordField, SubmitField
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, EqualTo
 import uuid
-from flask_restful import Resource,Api
 import requests
 #str(uuid.uuid4()) to generate random string, used as unique string. like id.
 
@@ -30,8 +29,9 @@ homeBlueprint = Blueprint('home', __name__)
 def findListByItem(findStrings):
     logger = current_app.log
     findStr = findStrings
+    actionStr = "get"
     if request.method=='POST':
-        print(request.form)
+        actionStr = findStrings
         for key in request.form:
             findStr = request.form[key]
             
@@ -53,14 +53,16 @@ def findListByItem(findStrings):
         ## read json from json file.
         ### This file path should be based on root path.  becasue it's just included by app.py, which is in root path. 
         itemListInJson = json_load_from_file(f)
-        print(f)
         ## 遍历所有item.
         for k,item in itemListInJson.items():
             allConditionMeet = True
             for search in search_key_list:
-#                print(item)
-                if not search_res_as_expected(search, item["keyList"]):
-                    allConditionMeet = False
+                if actionStr == "xxx":
+                    if not search_res_as_expected(search, item["keyList"], actionStr):
+                        allConditionMeet = False
+                elif actionStr == "yyy":
+                    if not search_res_as_expected(search, item["title"], actionStr):
+                        allConditionMeet = False
             if allConditionMeet:
                 itemTmp = item
                 itemTmp["file"] = f
@@ -91,7 +93,6 @@ def showFile(file):
 
     f = file
     logger.debug(f)
-    print(f)
 
     ## read json from json file.
     ### This file path should be based on root path.  becasue it's just included by app.py, which is in root path. 
@@ -104,7 +105,6 @@ def showFile(file):
         itemTmp = item
         itemTmp["file"] = f
         itemTmp["detail_html"] = markdownToHtmlWithExtensions(itemTmp["detail"])
-        print(itemTmp["detail"])
         itemList.append(itemTmp)
 
     logger.debug(itemList)
@@ -132,7 +132,6 @@ def formModify(file,uuid_str):
     ## 遍历所有item.
     for k,item in itemListInJson.items():
         logger.debug(item)
-        print(uuid_str)
         if uuid_str == item["uuid"]:
             itemTmp = item
             itemTmp["file"] = f
@@ -159,21 +158,18 @@ def modify(file,uuid_str):
     itemModify = dict()
     if request.method=='POST':
         for key in request.form:
-            print(key)
             if key != "file":
                 itemModify[key] = request.form[key]
             else:
                 newFile = request.form[key]
         itemModify["uuid"] = uuid_str
         keyList = itemModify["keyList"].split(",")
-        print(keyList)
         itemModify["keyList"] = []
         for k in keyList:
             itemModify["keyList"].append(k.upper().strip())
         itemModify["keyList"] = list(filter(None,itemModify["keyList"]))
         
         relationList = itemModify["relationList"].split(",")
-        print(relationList)
         itemModify["relationList"] = []
         for k in relationList:
             itemModify["relationList"].append(k.strip())
@@ -183,7 +179,6 @@ def modify(file,uuid_str):
         #        and insert uuid link here to replace the content.
         itemModify["detail"] = preProcessmarkdown_newItem(itemModify["detail"])
         itemModify["detail_html"] = markdownToHtmlWithExtensions(itemModify["detail"])
-        print(itemModify["detail_html"])
     else:
         return "not support get request !!!"
         
@@ -317,7 +312,6 @@ def add():
     itemAdd = dict()
     if request.method=='POST':
         for key in request.form:
-            print(key)
             if key != "file":
                 itemAdd[key] = request.form[key]
             else:
@@ -388,19 +382,6 @@ def formAddToFile(to_file):
 # 遍历所有的json文件，找到关键字对于的内容列表
 def searchByuuid(uuid_str):
 
-#    url = 'http://127.0.0.1:5000/Name/hzzz'
-    
-#    res = requests.get(url)
-#    print(res.text)
-    
-#    data = {'Name':'haizu'}
-#    headers = {'Content-Type':'application/json'}
-#    res = requests.post(url, data=json.dumps(data),headers=headers)
-#    print(res.text)
-    
-#    res = requests.delete(url,  data=data)
-#    print(res.text)
-    
     logger = current_app.log
     file_list = []
     itemList = []
@@ -420,7 +401,6 @@ def searchByuuid(uuid_str):
         ## read json from json file.
         ### This file path should be based on root path.  becasue it's just included by app.py, which is in root path. 
         itemListInJson = json_load_from_file(f)
-        print(f)
         ## 遍历所有item.
         item = itemListInJson[uuid_str]
         im = item
@@ -436,7 +416,6 @@ def searchByuuid(uuid_str):
 # look up from All files, collect item content into a List.
 # 遍历所有的json文件，找到关键字对于的内容列表
 def update():
-    print("upate by AJAX")
     jsonObj = request.form.to_dict()
     item = dict()
 #    itemModify["item"]=dict()

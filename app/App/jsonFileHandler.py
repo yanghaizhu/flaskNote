@@ -16,7 +16,6 @@ def get_json_file_list():
 def json_load_from_file(file):
     file_path = current_app.config["JSON_FILE_PATH"]
     with open(file_path+file+'.json',encoding='utf-8') as fp:
-        print(file_path+file+'.json')
         itemListInJson = json.load(fp)
         
         current_app.log.debug(itemListInJson)
@@ -43,7 +42,7 @@ def record_load_from_file():
         return recordData
 
 def record_load_from_file_by_uuid(uuid):
-    print(uuid)
+
     content = "# ["+uuid+"](http://127.0.0.1:5000/uuid/4f72b351467a400aa018a0243d993b37/)\r\n#"
     recordData = json_load_from_file("2")
     item = recordData[uuid]
@@ -53,9 +52,7 @@ def record_load_from_file_by_uuid(uuid):
 
 def record_dump_to_file(recordData):
     file_path = current_app.config["RECORD_PATH_FILE"]
-    print(recordData)
-    print("file_path")
-    print(file_path)
+
     with open(file_path+'.json','w',encoding='utf-8') as fp:
         json.dump(recordData, fp, indent=2,ensure_ascii=False)
     
@@ -63,10 +60,12 @@ def record_dump_to_file(recordData):
 
 def appendNewItemToFile(uuid, content):
     recordData = json_load_from_file("2")
-    print(uuid)
+
     itemAdd = dict()
     keyList = list()
     relationList = list()
+    itemAdd["title"] = ""
+    itemAdd["id"] = 0
     itemAdd["keyList"] = []
     itemAdd["relationList"] = []
     itemAdd["uuid"] = uuid

@@ -31,22 +31,15 @@ def preProcessmarkdownFile(mdString):
 
 def preProcessmarkdown_newItem(mdString):
     mdProString = mdString
-    print(111)
     pat = r'\[newstart\]([\s\S]*?)\[newend\]'
     matchs = re.findall(pat, mdString)
-    print(222)
-    print(matchs)
-    print(222)
     for new in matchs:
-        print(333)
-        print(new)
         content = new
         uuidStr = str(uuid.uuid4()).replace('-','')
         
         appendNewItemToFile(uuidStr,content)
         
         mdProString = mdProString.replace('[newstart]'+content+'[newend]','[uuid]'+uuidStr)
-    print(444)
     return mdProString
     
     
