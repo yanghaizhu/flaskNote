@@ -5,23 +5,36 @@
 		{% include 'nav.html' %}
 
 		<div class="content">
-			<div class="content_resize">
-				<div class="mainbar">
+			<div class="row">
+				<div class="col-md-8">
+					<div class="content_resize">
+						<div class="mainbar">
 
-					{% for item in itemList %}
+							{% for item in itemList %}
 
-					{% include 'show.html' %}
+							{% include 'show.html' %}
 
-					{{ item.detail_html|safe }}
-					<hr class="divider dashed  w-75 border-primary">
-					{% endfor %}
+							{{ item.detail_html|safe }}
+							<hr class="divider dashed  w-75 border-primary">
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2">
+							{% for item in itemList %}
 
-
-					
+						<a target="_blank" href="/uuid/{{ item.uuid }}/">{{ item.title }}</a>
+					<br>
+							{% endfor %}
+				</div>
+				<div class="col-md-2">
+							{% for item in totalList %}
+						<a target="_blank" href="/uuid/{{ item.uuid }}/">link:{{ item.title }}</a>
+					<br>
+							{% endfor %}
 				</div>
 			</div>
 		</div>
-
 
 	</body>
 </html>
