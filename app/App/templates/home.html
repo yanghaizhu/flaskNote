@@ -23,13 +23,13 @@
 				<div class="col-md-2">
 							{% for item in itemList %}
 
-						<a target="_blank" href="/uuid/{{ item.uuid }}/">{{ item.title }}</a>
+						<a target="_blank" href="/uuid/{{ item.uuid }}/">matched:{{ item.title }}</a>
 					<br>
 							{% endfor %}
 				</div>
 				<div class="col-md-2">
 							{% for item in totalList %}
-						<a target="_blank" href="/uuid/{{ item.uuid }}/">link:{{ item.title }}</a>
+						<a target="_blank" href="/uuid/{{ item.uuid }}/">total:{{ item.title }}</a>
 					<br>
 							{% endfor %}
 				</div>
