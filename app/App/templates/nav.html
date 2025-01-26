@@ -1,40 +1,8 @@
 <nav>
 	<form action="/find/xxx/" method="post">
-      <input class="form-control" name="search" type="search" placeholder="Search" value="{{findStr}}">
+      <input class="form-control" name="search2" type="search2" placeholder="Search" value="{{findStr}}">
     </form>
 	<form action="/find/yyy/" method="post">
-      <input class="form-control" name="search" type="search" placeholder="Search" value="{{findStr}}">
+      <input class="form-control" name="search2" type="search2" placeholder="Search" value="{{findStr}}">
     </form>
-
-		<ul class="puerto-dark-menu color-15  float:left">
-
-			<li class="drop-menu">
-				<a href="">
-					<i class="fa fa-envelope-o"></i>
-					<small>1</small>
-					<strong>File list</strong>
-				</a>
-				<ul>
-					{% for f in file_list %}
-					<li><a href="/show/{{ f }}/"><i class="fa fa-globe"></i>{{f}}</a></li>
-					<li><a href="/show/{{ f }}/"><i class="fa fa-globe"></i>{{f}}</a></li>
-					<li><a href="/show/{{ f }}/"><i class="fa fa-globe"></i>{{f}}</a></li>
-					{% endfor %}
-				</ul>
-			</li>
-			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
-			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
-			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
-			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
-			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
-			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
-			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
-			<li><a href="">	<i class="fa fa-home"></i> 	<strong>NONE</strong></a></li>
-			<li class="active">
-				<a href="/form/new/">
-					<i class="fa fa-edit"></i>
-					<strong>New</strong>
-				</a>
-			</li>
-		</ul>
 </nav>

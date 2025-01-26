@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  <title>calendar</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="flex-center">
+<div>
+  {{selectDayDetail}}
+</div>
+  <div class="calendar">
+    <header>
+      <div class="button-nav">
+          <a href="/preMCalendar/{{date.year}}/{{date.month}}/{{date.day}}/">Pre</a>
+          <a href="/nextMCalendar/{{date.year}}/{{date.month}}/{{date.day}}/">Next</a>
+      </div>
+      <p id="title">{{date.year}}年{{date.month}}月</p>
+      <a id="today" class="today" href="/today/">今天</a>
+    </header>
+    <div class="week">
+      <li>日</li>
+      <li>一</li>
+      <li>二</li>
+      <li>三</li>
+      <li>四</li>
+      <li>五</li>
+      <li>六</li>
+    </div>
+    <div id="content" class="content">
+      <div id="bg" class="bg flex-center">{{date.month}}</div>
+      {% for day in preList %}
+      <a href="/preMCalendar/{{date.year}}/{{date.month}}/{{day}}/"><li class="date flex-center light"><div class="date-num flex-center">{{day}}</div></li></a>
+      {% endfor %}
+      {% for day in curList %}
+      {% if day == date.day %}
+      <a href="/curMCalendar/{{date.year}}/{{date.month}}/{{day}}/"><li class="date flex-center active"><div class="date-num flex-center">{{day}}</div></li></a>
+      {% else %}
+      <a href="/curMCalendar/{{date.year}}/{{date.month}}/{{day}}/"><li class="date flex-center"><div class="date-num flex-center">{{day}}</div></li></a>
+      {% endif%}
+      {% endfor %}
+      {% for day in nxtList %}
+      <a href="/nextMCalendar/{{date.year}}/{{date.month}}/{{day}}/"><li class="date flex-center light"><div class="date-num flex-center">{{day}}</div></li></a>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+<!-- <script src="{{ url_for('static', filename='js/index.js') }}"></script> -->
+</html>

@@ -2,7 +2,7 @@
 from  flask import Flask
 # import views, also run views.
 from .viewsHome import *
-
+from .viewCalendar import *
 #from flask_restful import Resource,Api
 #
 #dataList = []
@@ -33,4 +33,5 @@ def create_app():
 
 
     app.register_blueprint(blueprint=homeBlueprint)
+    app.register_blueprint(blueprint=calendarBP)
     return app

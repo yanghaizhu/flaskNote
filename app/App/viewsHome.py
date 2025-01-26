@@ -14,10 +14,13 @@ import os
 from werkzeug.utils import *
 import html
 import markdown
-from mermaid import *
+#from mermaid import *
 from .stringHandler import *
 from .jsonFileHandler import *
 from .actionHandler import *
+
+from datetime import *
+from .DateInfo import DateInfo
 
 # blueprint is used for route. Blueprint would be used at create_app, in __init__.py. 
 # We can have more blueprints, with different name, and at create_app side, register them one by one.
@@ -449,13 +452,15 @@ def searchByuuid(uuid_str):
 # look up from All files, collect item content into a List.
 # 遍历所有的json文件，找到关键字对于的内容列表
 def update():
+    print("to update")
     jsonObj = request.form.to_dict()
     item = dict()
 #    itemModify["item"]=dict()
     if request.method == 'POST':
         item["detail_html"] = markdownToHtmlWithExtensions(jsonObj["detail"])
-
+        print("update")
         return jsonify(item)
     else:
+        print("not right update")
         return "not support get request !!!"
 
