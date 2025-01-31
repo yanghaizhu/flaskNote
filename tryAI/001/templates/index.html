@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rich Text Editor</title>
+    <!-- 引入 CKEditor--
+    <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>-->
+    <script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+
+<style>
+        /* 自定义彩色工具栏 */
+        .cke_button_icon {
+            filter: none !important; /* 移除灰度滤镜 */
+        }
+
+        /* 主工具栏背景色 */
+        .cke_top {
+            background: #f0f4f7 !important;
+            border-bottom: 1px solid #d1d6da !important;
+        }
+
+        /* 按钮悬停效果 */
+        .cke_button:hover {
+            background: #e1f5fe !important;
+            border-radius: 3px;
+        }
+
+        /* 激活状态按钮 */
+        .cke_button_on {
+            background: #b3e5fc !important;
+        }
+    </style>
+</head>
+<body>
+<nav>
+	<form action="/find/" method="post">
+      <input class="form-control" name="search2" type="search2" placeholder="Search" value="{{findStr}}">
+    </form>
+</nav>
+
+		<div class="content">
+			<div class="row">
+				<div class="col-md-8">
+
+                        <form method="POST">
+                            {{ form.hidden_tag() }}
+                            <p>
+                                {{ form.title.label }}<br>
+                                {{ form.title(size=64) }}
+                            </p>
+                            <p>
+                                {{ form.content.label }}<br>
+                                {{ form.content() }}
+                            </p>
+
+                            <p>{{ form.submit() }}</p>
+                        </form>
+
+
+				</div>
+				<div class="col-md-2">
+							{% for item in itemList %}
+
+						<a target="_blank" href="/{{ item.uuid }}/">matched:{{ item.title }}</a>
+					<br>
+							{% endfor %}
+				</div>
+				<div class="col-md-2">
+							{% for item in totalList %}
+						<a target="_blank" href="/{{ item.uuid }}/">total:{{ item.title }}</a>
+					<br>
+							{% endfor %}
+				</div>
+			</div>
+		</div>
+
+    <script>
+        // 初始化 CKEditor，并配置图片上传功能和丰富的工具栏
+        CKEDITOR.replace('content', {
+            filebrowserUploadUrl: '/upload_image',  // 图片上传的接口
+            filebrowserUploadMethod: 'form',        // 使用表单上传
+            toolbar: [
+                { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'ExportPdf', 'Preview', 'Print', '-', 'Templates'] },
+                { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+                { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+                { name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
+                '/',
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
+                { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+                { name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+                '/',
+                { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                { name: 'colors', items: ['TextColor', 'BGColor'] },
+                { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+                { name: 'about', items: ['About'] }
+            ],
+            extraPlugins: 'uploadimage',  // 启用图片上传插件
+            uploadUrl: '/upload_image',   // 图片上传的接口
+            height: 500                   // 设置编辑器高度
+        });
+    </script>
+</body>
+</html>
